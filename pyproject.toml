@@ -1,0 +1,54 @@
+
+[project]
+name = "fplcPlot"
+dynamic = ["version"]
+description = "A Python library for loading and simulating EPR spectra."
+authors = [
+	{name = "Liam Twomey"},
+]
+maintainers = [
+	{name="Liam Twomey"},
+]
+readme = "README.rst"
+requires-python = ">=3.10"
+keywords = ["biology","chromatography","protein"]
+license = "AGPL-3.0-or-later"
+license-files = ["LICENSE.txt"]
+classifiers = [
+	"Private :: Do Not Upload",
+	"Devlopment Status :: 4 - Beta",
+	"Intended Audience :: Scientists",
+	"Programming Language :: Python :: 3",
+	"Programming Language :: Python :: 3.10",
+	"Programming Language :: Python :: 3.11",
+	"Programming Language :: Python :: 3.12",
+]
+dependencies = [
+	'pandas',
+	'plotly',
+	'pathlib',
+]
+
+#[project.urls]
+#Repository = "https://github.com/LiamTwomey/fplcPlot"
+#Issues = "https://github.com/Liam-Twomey/fplcPlot/issues"
+#Homepage = "https://github.com/LiamTwomey/fplcPlot"
+
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.package-dir]
+fplcPlot = "src"
+
+[project.gui-scripts]
+# defines this as an executable for uv
+fplcPlot = "iFAMS:__name__"
+
+[tool.setuptools.dynamic]
+version = {attr = "fplcPlot.__version__"}
+
+[tool.pytest.ini_options]
+addopts = [
+	"--import-mode=importlib",
+]
