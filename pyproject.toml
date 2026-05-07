@@ -2,7 +2,7 @@
 [project]
 name = "fplcPlot"
 dynamic = ["version"]
-description = "A Python library for loading and simulating EPR spectra."
+description = "A Python script for plotting Akta FPLC traces."
 authors = [
 	{name = "Liam Twomey"},
 ]
@@ -41,9 +41,9 @@ build-backend = "setuptools.build_meta"
 [tool.setuptools.package-dir]
 fplcPlot = "src"
 
-[project.gui-scripts]
+[project.scripts]
 # defines this as an executable for uv
-fplcPlot = "iFAMS:__name__"
+fplcPlot = "fplcPlot:__name__"
 
 [tool.setuptools.dynamic]
 version = {attr = "fplcPlot.__version__"}
