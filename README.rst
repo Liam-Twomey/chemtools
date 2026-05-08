@@ -29,7 +29,7 @@ the `uv` package manager:
 
 .. code:: shell
 
-    uv tool install git+https://github.com/Liam-Twomey/fplcPlot
+    uv tool install git+https://gitlab.com/ltwo/fplcPlot
 
 This will deal with downloading the script, installing dependencies, and
 adding it to your system path.
