@@ -19,9 +19,10 @@ Installation
 ============
 
 ``fplcPlot.py`` is the entire program. To use it, you *can* just download
-the file, install the dependencies (``pandas`` and ``plotly``) in your python
-environment and use the script. It is also recommended to add the script to
-your system path, to avoid needing to specify the full path for every use.
+the file, install the dependencies (``pandas``, ``plotly``, and ``pathlib``)
+in your python environment and use the script. It is also recommended to add
+the script to your system path, to avoid needing to specify the full path
+for every use.
 
 However, for convenience and ease of use, it can be installed as a tool with
 the `uv` package manager:
