@@ -54,13 +54,13 @@ def main():
 	
 	# load the data
 	data = pd.read_csv(fpath,sep='\t',encoding='UTF-16',low_memory=False)
-	tracen = list(data.loc[0].dropna())
-	dclean = data.loc[2:]#.to_numpy()
+	#tracen = list(data.loc[0].dropna())
+	#dclean = data.loc[2:]#.to_numpy()
 	assert(len(data.columns)%2==0)
 	split = []
 	for n in range(len(data.columns)//2):
 		split.append(dtrace(data,2*n))
-	ls = len(split)
+	#ls = len(split)
 	#os = 0.05
 	
 	# Build the PyPlot plot using pio.
@@ -72,7 +72,17 @@ def main():
 	for d in range(len(split)):
 		dt = split[d]
 		if dt.name == 'Fraction':
-			None
+			dt.data.idx = pd.to_numeric(dt.data.idx)
+			dt.data['yax'] = 0.1
+			dt.data['angle'] = -45
+			dt.data['ob1'] = dt.data.idx.shift(periods=-1,fill_value=dt.data.idx.iloc[-1])
+			dt.data['center'] = (dt.data.ob1+dt.data.idx)/2
+			#traces.append({'y': dt.data.yax, 'x': dt.data.idx,'yaxis':f'y{d+1}','mode':'markers','marker_color':'black','marker_symbol':142})
+			#traces.append({'y': dt.data.yax, 'x': dt.data.idx,'yaxis':f'y{d+1}','mode':'text','text':dt.data.val,'textposition':'top right'})
+			traces.append({'y': dt.data.yax, 'x': dt.data.idx,'yaxis':f'y{d+1}','mode':'markers+lines+text','marker_color':'black','marker_symbol':142,
+				  'text':dt.data.val,'textposition':'top right'})#'textangle':-90})
+			layout[f'yaxis{d+1}'] = {'side':'left', 'range':[0,1],'anchor':'free','position':0,'showticklabels':False,'overlaying':'y1'}
+			#print(dt)
 		else:
 			traces.append({'y': dt.data.val, 'x': dt.data.idx, 'name': dt.name, 'yaxis': f'y{d+1}'})
 		#	layout[f'yaxis{d+1}'] = {'title':dt.name, 'side':'left', 'range':[dt.data.val.min(),dt.data.val.max()],'overlaying':'y1','position':os*d}
