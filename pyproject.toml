@@ -1,8 +1,8 @@
 
 [project]
-name = "fplcPlot"
+name = "sciCSVplot"
 dynamic = ["version"]
-description = "A Python script for plotting Akta FPLC traces."
+description = "A Python script for plotting CSV exports of data from supported instruments."
 authors = [
 	{name = "Liam Twomey"},
 ]
@@ -39,14 +39,14 @@ requires = ["setuptools"]
 build-backend = "setuptools.build_meta"
 
 [tool.setuptools.package-dir]
-fplcPlot = "src"
+csvPlot = "src"
 
 [project.scripts]
 # defines this as an executable for uv
-fplcPlot = "fplcPlot:__name__"
+csvPlot = "csvPlot:__name__"
 
 [tool.setuptools.dynamic]
-version = {attr = "fplcPlot.__version__"}
+version = {attr = "csvPlot.__version__"}
 
 [tool.pytest.ini_options]
 addopts = [
