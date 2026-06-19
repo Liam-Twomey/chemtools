@@ -31,9 +31,9 @@ dependencies = [
 ]
 
 [project.urls]
-Repository = "https://gitlab.com/ltwo/fplcPlot"
-Issues = "https://gitlab.com/ltwo/fplcPlot/issues"
-Homepage = "https://gitlab.com/ltwo/fplcPlot"
+Repository = "https://github.com/Liam-Twomey/chemtools"
+Issues = "https://github.com/Liam-Twomey/chemtools/issues"
+Homepage = "https://github.com/Liam-Twomey/chemtools/larmour"
 
 [build-system]
 requires = ["setuptools"]
