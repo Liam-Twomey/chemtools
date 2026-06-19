@@ -12,7 +12,7 @@ csvPlot
 
 A tool to easily make interactive plots of the CSV exported data from common instruments. See the `readme`_ for more details.
 
-.. _readme: ./csvPlot/README.rst
+.. _readme: csvPlot/README.rst
 
 larmour
 -------
@@ -22,7 +22,7 @@ Similar to the EasySpin EPR tools and the BYU Larmour calculator, but allows the
 comparison of electron larmour spins to nuclei. This is specifically useful for
 getting the numbers on DNP. See the `readme`_ for more details.
 
-.. _readme: ./larmour/README.rst
+.. _readme: larmour/README.rst
 
 License
 =======
