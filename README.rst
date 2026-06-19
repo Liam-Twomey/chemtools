@@ -10,6 +10,8 @@ Components
 csvPlot
 -------
 
+.. include csvPlot/README.rst
+
 A tool to easily make interactive plots of the CSV exported data from common instruments. See the `readme`_ for more details.
 
 .. _readme: csvPlot/README.rst
