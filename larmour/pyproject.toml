@@ -1,0 +1,55 @@
+
+[project]
+name = "larmour"
+dynamic = ["version"]
+description = "A Python CLI script to grab and visualize the relative larmour frequencies of electrons and nuclei."
+authors = [
+	{name = "Liam Twomey"},
+]
+maintainers = [
+	{name="Liam Twomey"},
+]
+readme = "README.rst"
+requires-python = ">=3.10"
+keywords = ["EPR","NMR","Magnetic Resonance","spin physics"]
+license = "AGPL-3.0-or-later"
+license-files = ["../LICENSE.txt"]
+classifiers = [
+	"Private :: Do Not Upload",
+	"Devlopment Status :: 4 - Beta",
+	"Intended Audience :: Scientists",
+	"Programming Language :: Python :: 3",
+	"Programming Language :: Python :: 3.10",
+	"Programming Language :: Python :: 3.11",
+	"Programming Language :: Python :: 3.12",
+]
+dependencies = [
+	'pandas',
+	'numpy'
+	'plotly',
+	'argparse',
+]
+
+[project.urls]
+Repository = "https://gitlab.com/ltwo/fplcPlot"
+Issues = "https://gitlab.com/ltwo/fplcPlot/issues"
+Homepage = "https://gitlab.com/ltwo/fplcPlot"
+
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.package-dir]
+larmour = "src"
+
+[project.scripts]
+# defines this as an executable for uv
+larmour = "larmour:__name__"
+
+[tool.setuptools.dynamic]
+version = {attr = "larmour.__version__"}
+
+[tool.pytest.ini_options]
+addopts = [
+	"--import-mode=importlib",
+]
