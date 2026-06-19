@@ -70,3 +70,5 @@ doc/build/
 # PyBuilder
 target/
 
+# result files
+*.html
