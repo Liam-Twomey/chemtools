@@ -29,31 +29,15 @@ def main():
             '1H':   42.57747846118/1E3,
             '13C':  10.7084/1E3,
             }
-    #gamma_e =  -28024.9513861/1E3 # MHz/mT
-    #gamma_p =   42.57747846118/1E3 # MHz/mT
-    #gamma_c =   10.7084/1E3 # MHz/mT
     
     freqs = [larmour(b,gamma[x]) for x in gamma.keys()]
     freqs[0]=-1*freqs[0]/1E3
     freqd = dict(zip(gamma.keys(),freqs))
     
-    #le = -1*larmour(b, gamma_e)/1E3 # GHz
-    #lp = larmour(b,gamma_p) # MHz
-    #lc = larmour(b,gamma_p) # MHz
-    
-    #maxes =  
-    
-    #mle = max(le)
-    #mlp = max(lp)
-    #mlc = max(lc)
-    
     data = pd.DataFrame(freqd,index=b)
     data.index.name = 'B'
     
     if args.query is not None:
-        #import pandas as pd
-        #data = pd.DataFrame({'proton':lp,'electron':le},index=b)
-        #data.index.name = 'B'
         for j in args.query:
             print('\nQuery:',j,'\n','-'*30)
             try:
@@ -66,7 +50,6 @@ def main():
                 #print(data.index.inferred_type)
                 ans = data.iloc[(data[sq[0].replace('`','')]-float(sq[1])).abs().argsort()[:1]]
             print(ans)
-    
     
     else:
         from plotly import io as pio
