@@ -24,7 +24,8 @@ classifiers = [
 	"Programming Language :: Python :: 3.12",
 ]
 dependencies = [
-	'pandas',
+	#	'pandas',
+	'polars',
 	'numpy',
 	'plotly',
 	'argparse',
