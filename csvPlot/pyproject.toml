@@ -43,7 +43,7 @@ csvPlot = "src"
 
 [project.scripts]
 # defines this as an executable for uv
-csvPlot = "csvPlot:__name__"
+csvPlot = "csvPlot.cli:main"
 
 [tool.setuptools.dynamic]
 version = {attr = "csvPlot.__version__"}
@@ -52,3 +52,14 @@ version = {attr = "csvPlot.__version__"}
 addopts = [
 	"--import-mode=importlib",
 ]
+
+[tool.ruff]
+target-version = "py315"
+indent-width = 4 
+line-length = 88
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "tab"
+docstring-code-format = true
+docstring-code-line-length = 80
