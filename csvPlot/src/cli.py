@@ -24,5 +24,5 @@ def main():
 		logger.setLevel('WARNING')
 	process(args.filepath,args.instrument[0])
 
-if __name__ == "__main__":
-	main()
+	#if __name__ == "__main__":
+	#	main()
