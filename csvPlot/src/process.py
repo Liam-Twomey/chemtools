@@ -4,6 +4,10 @@
 import pandas as pd 
 from pathlib import Path
 import plotly.io as pio
+import logging
+
+logger = logging.getLogger(__name__)
+logger.setLevel('DEBUG')
 
 class dtrace:
 	'''
@@ -33,10 +37,12 @@ class dtrace:
 	def __repr__(self):
 		return f"\n----- Trace Object ------\nName: {self.name}\nIndex unit: {self.idx_unit}\nValue unit: {self.val_unit}\n--- Data\n{self.data.dtypes}\n{self.data}"
 
-def process(filepath,instrument):
+def process(filepath:str|Path,instrument:str):
 	# check filepath validity
 	fpath = Path(filepath)
 	assert fpath.suffix.lower() == '.csv', "File path supplied is not a csv file."
+	logger.debug(f'Reading {filepath} as {instrument}')
+	print(f'Reading {filepath} as {instrument}')
 	
 	# Check that a valid instrument has been supplied
 	implemented=['akta','caryuv']
@@ -47,23 +53,31 @@ def process(filepath,instrument):
 	# fork into different instrument paths
 	match instrument.lower():
 		case 'akta':
-			layout,traces = akta(fpath, args)
+			data = loadAkta(fpath)
+			logger.debug(data)
+			layout,traces = plotAkta(data,str(fpath))
 		case 'caryuv':
-			layout,traces = caryuv(fpath,args)
+			data = loadCary(fpath)
+			logger.debug(data)
+			layout,traces = plotCary(data,str(fpath))
+		case _:
+			raise ValueError(f"Instrument not implemented. Options:{implemented}")
 	#pio.show({'data': traces, 'layout': layout}, renderer='browser')
 	pio.write_html({'data': traces, 'layout': layout}, fpath.with_suffix('.html'),auto_open=True)
 
-def akta(fpath,args):
-	#TODO fix only the first path plotting for akta data
-	# load the data
+def loadAkta(fpath) -> pd.DataFrame:
 	data = pd.read_csv(fpath,sep='\t',header=1,encoding='UTF-16',low_memory=False)
 	assert(len(data.columns)%2==0)
+	return data
+
+def plotAkta(data:pd.DataFrame,name:str) -> tuple[dict,list]:
+	#TODO fix only the first path plotting for akta data
+	# load the data
 	split = []
 	for n in range(len(data.columns)//2):
 		split.append(dtrace(data,2*n))
-	
 	# Build the PyPlot plot using pio.
-	layout = {'title': f'Plot of FPLC data, {fpath}'}
+	layout = {'title': f'Plot of FPLC data, {name}'}
 	#layout['xaxis'] = {'title':'Total system volume (mL)','domain':[os*(ls-1),1]} # for showing axes
 	layout['xaxis'] = {'title':'Total system volume (mL)','domain':[0,1]}
 	layout['legend'] = {'orientation':'h','yanchor':'bottom','y':1.02}
@@ -89,33 +103,43 @@ def akta(fpath,args):
 			if d > 0:
 				layout[f'yaxis{d+1}']['overlaying']='y1'
 				layout[f'yaxis{d+1}']['ticks']=""
-		return layout,traces
+	return layout,traces
 
-def caryuv(fpath,args):
-	# load the data - skip_blank_lines is true by default
-	data = pd.read_csv(fpath,sep=',',header=16,low_memory=False)
-	#names = data.columns[3:][::2]
-	data.drop('Name',axis=1,inplace=True)
-	data.drop([0,1,2,3,4,5,6],axis=0,inplace=True)
-	data = data.astype('float')
-	#print(data)
-	assert(len(data.columns)%2==0)
-	split = []
-	maxes = []
-	for n in range(len(data.columns)//2):
-		split.append(dtrace(data,2*n))
-		maxes.append(split[n].data.iloc[:,1].max())
-	mmax=max(maxes)
-	
+def loadCary(fpath: Path) -> pd.DataFrame:
+	"""
+	Load data from a Cary UV csv file into a pandas dataframe. Index is
+	wavelength.
+	"""
+	data = pd.read_csv(fpath, sep=",", low_memory=False)
+	colnames = data.iloc[0, :].keys()
+	colsave = colnames[::2]
+	data.drop(0, axis=0, inplace=True)
+	wave = data.iloc[:, 0]
+	wave.name = 'Wavelength'
+	abs = data.iloc[:, 1::2]
+	assert len(colsave) == abs.shape[1]
+	abs.columns = colsave
+	abs = abs.set_index(wave)
+	abs = abs.astype('float')
+	abs = abs.sort_index(axis=0)
+	return abs
+
+def plotCary(data,name) -> tuple[dict,list]:
+	"""
+	Display loaded Cary UV-Vis data on an interactive plotly plot.
+	"""
+
 	# Build the PyPlot plot using pio.
-	layout = {'title': f'Plot of UV-Vis data, {fpath}'}
+	layout = {'title': f'Plot of UV-Vis data, {name}'}
 	layout['xaxis'] = {'title':r'Wavelength (nm)','domain':[0,1]}
 	layout['legend'] = {'orientation':'h','yanchor':'bottom','y':1.02}
 	traces = []
-	for d in range(len(split)):
-		dt = split[d]
-		traces.append({'y': dt.data.val, 'x': dt.data.idx, 'name': dt.name, 'yaxis': f'y{d+1}'})
-		layout[f'yaxis{d+1}'] = {'side':'left', 'range':[0,mmax],'anchor':'free','position':0,'showticklabels':False}
+	for d in range(len(data.columns)):
+		#dt = split[d]
+		trc = data.iloc[:,d]
+		traces.append({'y': trc, 'x': data.index, 'name': trc.name,'yaxis': f'y{d+1}'})
+		layout[f'yaxis{d+1}'] = {'side':'left', 'range':[0,trc.max()],
+						   		'anchor':'free','position':0,'showticklabels':False}
 		if d == 0:
 			layout[f'yaxis{d+1}']['showticklabels'] = True
 			layout[f'yaxis{d+1}']['title'] = 'Abs (AU)'
@@ -123,6 +147,3 @@ def caryuv(fpath,args):
 			layout[f'yaxis{d+1}']['overlaying']='y1'
 			layout[f'yaxis{d+1}']['ticks']=""
 	return layout,traces
-
-if __name__ == "__main__":
-	main()
