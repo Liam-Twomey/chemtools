@@ -42,8 +42,6 @@ def process(filepath:str|Path,instrument:str):
 	fpath = Path(filepath)
 	assert fpath.suffix.lower() == '.csv', "File path supplied is not a csv file."
 	logger.debug(f'Reading {filepath} as {instrument}')
-	print(f'Reading {filepath} as {instrument}')
-	
 	# Check that a valid instrument has been supplied
 	implemented=['akta','caryuv']
 	#print(args.instrument[0], type(args.instrument[0]))
