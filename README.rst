@@ -9,15 +9,15 @@ importable python modules for use in other programs.
 Components
 ==========
 
-csvPlot
--------
+scicsvutils
+-----------
 
-A tool to easily make interactive plots of the CSV exported data from common
-instruments. See the `readme`_ for more details:
+A tool to import data from, and easily make interactive plots of the CSV-exported
+data from common instruments. Currently implemented: Akta FPLC, and Cary UV-Vis
+
+See the package `readme`_ for more details.
 
 .. _readme: csvPlot/README.rst
-
-.. include:: csvPlot/README.rst
 
 larmour
 -------
@@ -25,11 +25,9 @@ larmour
 A python script to easily compare and plot the larmour variables of different spins.
 Similar to the EasySpin EPR tools and the BYU Larmour calculator, but allows the
 comparison of electron larmour spins to nuclei. This is specifically useful for
-getting the numbers on DNP. See the `readme`_ for more details:
+getting the numbers on DNP. See the package `readme`_ for more details.
 
 .. _readme: larmour/README.rst
-
-.. include:: larmour/README.rst
 
 License
 =======
