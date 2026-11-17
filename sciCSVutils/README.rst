@@ -11,13 +11,16 @@ is then displayed in your default web browser.
 Currently, the supported csv formats which can be automatically processed are:
 
 - ``akta``: Data exported from the UNICORN control software used by Äkta FPLCs.
-- ``caryuv``: Data exported from the control software of Cary UV-Vis spectrometers.
+- ``caryuv``: Data exported from the control software of Cary UV-Vis
+  spectrometers.
 
 
 Installation
 ============
 
-It is recommended to install this tool with the ``uv`` or ``pipx`` package managers, in order to automatically add it as a CLI command:
+To use as a standalone CLI tool, it is recommended to install this tool with
+the ``uv`` or ``pipx`` package managers, in order to automatically make it
+accessible as a shell command:
 
 .. code:: shell
 
@@ -27,6 +30,10 @@ It is recommended to install this tool with the ``uv`` or ``pipx`` package manag
 
 This will deal with downloading the script, installing dependencies, and
 adding it to your system path.
+
+The module can also be imported for use in a larger python program, as a util
+for data loading or plotting. In this case, install it normally in a ``venv``
+using ``pip`` or ``uv``.
 
 Use
 ===
@@ -39,14 +46,32 @@ command line script and argument parsing is defined by ``cli``, and ``process``
 deals with loading, processing, and plotting the data, which is specific to
 each instrument.
 
-To process the data for use in another program, ``process.py`` can be used on its own, as a loading helper. In that case, it can be installed with pip inside your virtual environment.
+When importing this program for use in a python script, only ``process.py`` is
+loaded. Within the process module, there are several functions:
+
+* ``generalPlot(filepath,instrument)`` is the command used by the CLI, where
+  the data loading and plotting functions are chosen automatically based on the
+  `instrument` string. 
+* ``loadAkta()`` is responsible for loading and parsing a CSV file of Äkta PLC
+  data which has been exported from UNICORN as a CSV. Each trace is loaded as a
+  ``dtrace`` object.
+* ``plotAkta()`` takes data which has been loaded by ``loadAkta()`` and makes an
+  interactive plot for display in the browser, using `plotly`.
+* ``loadCary()`` loads data from Cary UV-Vis spectrometers, specifically CSV
+  exports from the __ software. All traces are loaded into one dataframe with
+  a shared wavelength index.
+* ``plotCary()`` plots Cary UV Vis data loaded by ``loadCary()`` as an
+  interactive plot in the browser using `plotly`.
+
+Since each instrument has separate loading and plotting functions, it is easy to
+import the module and just use the data-loading functionality.
 
 The interactive plot
 --------------------
 
-- Trace values can be extracted by mousing over the trace
-- Clicking an entry in the legend will hide/show that line.
-- Zoom/manipulation controls are in the top right corner.
+* Trace values can be extracted by mousing over the trace
+* Clicking an entry in the legend will hide/show that line.
+* Zoom/manipulation controls are in the top right corner.
 
 License
 =======

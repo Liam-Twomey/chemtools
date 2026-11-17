@@ -37,7 +37,7 @@ class dtrace:
 	def __repr__(self):
 		return f"\n----- Trace Object ------\nName: {self.name}\nIndex unit: {self.idx_unit}\nValue unit: {self.val_unit}\n--- Data\n{self.data.dtypes}\n{self.data}"
 
-def process(filepath:str|Path,instrument:str):
+def generalPlot(filepath:str|Path,instrument:str):
 	# check filepath validity
 	fpath = Path(filepath)
 	assert fpath.suffix.lower() == '.csv', "File path supplied is not a csv file."

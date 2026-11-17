@@ -22,7 +22,7 @@ def main():
 		logger.setLevel('DEBUG')
 	else:
 		logger.setLevel('WARNING')
-	process(args.filepath,args.instrument[0])
+	generalPlot(args.filepath,args.instrument[0])
 
 	#if __name__ == "__main__":
 	#	main()
