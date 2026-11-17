@@ -41,6 +41,8 @@ def parseQuery(args,data:pd.DataFrame)->pd.DataFrame:
 			sq = j.split('==')
 			#print(data.index.inferred_type)
 			ans = data.iloc[(data[sq[0].replace('`','')]-float(sq[1])).abs().argsort()[:1]]
+		else:
+			raise ValueError(f'No close match to query string {args.query} found.')
 	return ans
 
 def generatePlot(data:pd.DataFrame,field) -> str:
