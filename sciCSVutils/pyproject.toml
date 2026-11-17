@@ -1,6 +1,6 @@
 
 [project]
-name = "sciCSVplot"
+name = "sciCSVutils"
 dynamic = ["version"]
 description = "A Python script for plotting CSV exports of data from supported instruments."
 authors = [
